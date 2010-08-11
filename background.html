@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <script>
+            var active = true;
+            chrome.browserAction.onClicked.addListener(function(tab) {
+                active = !active;
+                
+                if(active) {
+                    chrome.browserAction.setIcon({path: "readshout_active.png"});
+                } else {
+                    chrome.browserAction.setIcon({path: "readshout_inactive.png"});
+                }
+            });
+            
+            chrome.extension.onRequest.addListener(
+                function(request, sender, sendResponse) {
+                    console.log(sender.tab ?
+                            "from a content script:" + sender.tab.url :
+                            "from the extension");
+                    if (request.get == "active") {
+                        sendResponse({ active: active });
+                    } else {
+                        sendResponse({});
+                    }
+              });
+        </script>
+    </head>
+    <body>
+
+
+    </body>
+</html>

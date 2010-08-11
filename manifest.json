@@ -1,0 +1,17 @@
+{
+  "name": "Readshout",
+  "version": "1.0",
+  "description": "Share links with friends on Readshout",
+  "browser_action": {
+    "default_icon": "readshout_active.png",
+    "default_title": "Readshout"
+  },
+  "background_page": "background.html",
+  "content_scripts": [
+    {
+      "matches": ["http://*/*"],
+      "js": ["readshout.js"],
+      "run_at": "document_end"
+    }
+  ]
+}
