@@ -4,7 +4,7 @@
   "description": "Share links with friends on Readshout",
   "browser_action": {
     "default_icon": "readshout_active.png",
-    "default_title": "Readshout"
+    "default_title": "Readshout - Active"
   },
   "background_page": "background.html",
   "content_scripts": [

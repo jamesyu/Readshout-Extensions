@@ -7,16 +7,15 @@
                 
                 if(active) {
                     chrome.browserAction.setIcon({path: "readshout_active.png"});
+                    chrome.browserAction.setTitle({ title: 'Readshout - Active' });
                 } else {
                     chrome.browserAction.setIcon({path: "readshout_inactive.png"});
+                    chrome.browserAction.setTitle({ title: 'Readshout - Inactive' });
                 }
             });
             
             chrome.extension.onRequest.addListener(
                 function(request, sender, sendResponse) {
-                    console.log(sender.tab ?
-                            "from a content script:" + sender.tab.url :
-                            "from the extension");
                     if (request.get == "active") {
                         sendResponse({ active: active });
                     } else {
