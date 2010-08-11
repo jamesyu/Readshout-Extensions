@@ -19,7 +19,7 @@
             }
     
             if(!excluded) {
-                s.setAttribute('src','http://localhost:10000/b?s=' + encodeURIComponent(document.location.href)+'&t=' + encodeURIComponent(document.title)+'&no_message=1');    
+                s.setAttribute('src','http://www.readshout.com/b?s=' + encodeURIComponent(document.location.href)+'&t=' + encodeURIComponent(document.title)+'&no_message=1');    
                 b.appendChild(s);
             }            
         }
