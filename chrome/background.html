@@ -1,27 +1,77 @@
 <html>
     <head>
         <script>
-            var active = true;
-            chrome.browserAction.onClicked.addListener(function(tab) {
-                active = !active;
+            var Readshout = {
+                loginStatusUrl: 'http://www.readshout.com/users/login_status',
+                active: false,
+                loggedIn: false,
                 
-                if(active) {
-                    chrome.browserAction.setIcon({path: "readshout_active.png"});
-                    chrome.browserAction.setTitle({ title: 'Readshout - Active' });
-                } else {
-                    chrome.browserAction.setIcon({path: "readshout_inactive.png"});
-                    chrome.browserAction.setTitle({ title: 'Readshout - Inactive' });
-                }
-            });
-            
-            chrome.extension.onRequest.addListener(
-                function(request, sender, sendResponse) {
-                    if (request.get == "active") {
-                        sendResponse({ active: active });
+                setActive: function(on) {
+                    var self = this;
+                    if(on) {
+                        this.checkLogin(function(logged_in) {
+                            if(logged_in) {
+                                self.active = on;
+                                self.updateActiveUI();
+                            }
+                        });
                     } else {
-                        sendResponse({});
+                        this.active = false;
+                        this.updateActiveUI();
                     }
-              });
+                },
+                
+                updateActiveUI: function() {
+                    if(this.active) {
+                        chrome.browserAction.setIcon({path: "readshout_active.png"});
+                        chrome.browserAction.setTitle({ title: 'Readshout - Active' });
+                    } else {
+                        chrome.browserAction.setIcon({path: "readshout_inactive.png"});
+                        chrome.browserAction.setTitle({ title: 'Readshout - Inactive' });
+                    }
+                },
+                
+                toggleActive: function() {
+                    new_active = !this.active;
+                    this.setActive(new_active);
+                },
+                
+                checkLogin: function(callback) {
+                    var self = this;
+                    var xhr = new XMLHttpRequest();
+                    xhr.onreadystatechange = function(data) {
+                        if (xhr.readyState == 4) {
+                            if (xhr.status == 200) {
+                                var data = JSON.parse(xhr.responseText);
+                                self.loggedIn = data.logged_in;
+                            }
+                            callback(self.loggedIn);
+                        }
+                    };
+                    
+                    xhr.open('GET', this.loginStatusUrl, true);
+                    xhr.send();
+                },
+                
+                init: function() {
+                    var self = this;
+                    
+                    chrome.extension.onRequest.addListener(
+                        function(request, sender, sendResponse) {
+                            if (request.get == "active") {
+                                sendResponse({ active: self.active });
+                            } else {
+                                sendResponse({});
+                            }
+                        }
+                    );
+                    
+                    this.setActive(true);
+                }
+            };
+       
+            Readshout.init();
+            
         </script>
     </head>
     <body>

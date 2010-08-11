@@ -1,10 +1,11 @@
 {
   "name": "Readshout",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Share links with friends on Readshout. When the icon is active and you're logged into Readshout, every page you surf to is shared.",
   "browser_action": {
-    "default_icon": "readshout_active.png",
-    "default_title": "Readshout - Active"
+    "default_icon": "readshout_inactive.png",
+    "default_title": "Readshout - Inactive",
+    "default_popup": "popup.html"
   },
   "background_page": "background.html",
   "content_scripts": [
@@ -13,5 +14,10 @@
       "js": ["readshout.js"],
       "run_at": "document_end"
     }
+  ],
+  "permissions": [
+    "tabs",
+    "http://www.readshout.com/",
+    "http://*/*"
   ]
 }

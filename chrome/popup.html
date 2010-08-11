@@ -1,0 +1,95 @@
+<html>
+    <head>
+        <style>
+            body {
+                width: 325px;
+                font-family: Helvetica;
+            }
+            
+            a {
+                color: #323C73;
+                text-decoration: none;
+                cursor: pointer;
+                
+                :visited {
+                    color: #323C73;
+                }
+            }
+            
+            h1 {
+                font-size: 16px;
+            }
+            
+            #settings div {
+                padding: 4px;
+                -webkit-border-radius: 5px;
+                cursor: pointer;
+            }
+            
+            #settings div:hover {
+                background: #eee;
+            }
+            
+            #settings div.active {
+                background: #323C73;
+                color: #fff;
+                font-weight: bold;
+            }
+            
+            #settings div.active:hover {
+                background: #323C73;
+            }
+            
+        </style>
+        
+        <script src='jquery.js'></script>
+        
+        <script>
+            var Readshout = chrome.extension.getBackgroundPage().Readshout;
+            
+            Readshout.checkLogin(function(logged_in) {
+                if(logged_in) {
+                    $('#settings').show();
+                    
+                    if(Readshout.active) {
+                        $('#settings .turn_on').addClass('active');
+                        $('#settings .turn_off').removeClass('active');
+                    } else {
+                        $('#settings .turn_off').addClass('active');
+                        $('#settings .turn_on').removeClass('active');
+                    }
+                    
+                    $('#settings .turn_on').click(function(e) {
+                        Readshout.setActive(true);
+                        $('#settings .turn_on').addClass('active');
+                        $('#settings .turn_off').removeClass('active');
+                    });
+                    
+                    $('#settings .turn_off').click(function(e) {
+                        Readshout.setActive(false);
+                        $('#settings .turn_off').addClass('active');
+                        $('#settings .turn_on').removeClass('active');
+                    });
+                    
+                } else {
+                    $('#login').show();
+                }
+            });
+            
+            
+            
+        </script>
+    </head>
+
+    <body>
+        <div id="login" style="display: none">
+            <h1><a onclick="chrome.tabs.create({ url: 'http://www.readshout.com/users/login' });">Log in to Readshout to turn sharing on</a></h1>
+        </div>
+        
+        <div id="settings" style="display: none">
+            <div class="turn_on">Sharing on</div>
+            <div class="turn_off">Sharing off</div>
+        </div>
+        
+    </body>
+</html>
