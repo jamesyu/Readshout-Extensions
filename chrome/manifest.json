@@ -1,6 +1,6 @@
 {
   "name": "Readshout",
-  "version": "1.1",
+  "version": "1.2",
   "description": "Share links with friends on Readshout. When the icon is active and you're logged into Readshout, every page you surf to is shared.",
   "browser_action": {
     "default_icon": "readshout_inactive.png",
